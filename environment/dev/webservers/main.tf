@@ -42,12 +42,19 @@ module "globalvars" {
   source = "../../../modules/globalvars"
 }
 
+resource "aws_key_pair" "ec2_key" {
+  key_name   = "assignment1"
+  public_key = file("./assignment1.pub")
+}
+
 resource "aws_instance" "public_ec2" {
   ami                       = data.aws_ami.latest_amazon_linux.id
   instance_type             = var.instance_type
   subnet_id                 = data.terraform_remote_state.network.outputs.public_subnet_ids[0] 
   vpc_security_group_ids = [aws_security_group.web_sg.id] # Use the first public subnet
   associate_public_ip_address = true
+  key_name                   = aws_key_pair.ec2_key.key_name
+
   tags = {Name = "public_instance"}
   
 }
