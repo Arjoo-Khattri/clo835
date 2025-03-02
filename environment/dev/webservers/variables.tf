@@ -13,7 +13,7 @@ variable "instance_type" {
 variable "default_tags" {
   description = "Tags to apply to all resources"
   type        = string
-  default     = "assignment1" 
+  default     = "assignment2" 
 }
 
 variable "prefix" {
