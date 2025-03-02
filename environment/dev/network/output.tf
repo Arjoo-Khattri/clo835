@@ -1,5 +1,6 @@
 output "vpc_cidr" {
-  value = module.dev_vpc.vpc_id
+value = aws_vpc.main.cidr_block 
+  
 }
 
 output "public_subnet_ids" {
