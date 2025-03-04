@@ -46,7 +46,7 @@ resource "aws_key_pair" "ec2_key" {
   public_key = file("./assignment2.pub")
 }
 
-# EC2 instance configuration
+# EC2 instance configuration with increased storage
 resource "aws_instance" "public_ec2" {
   ami                       = data.aws_ami.latest_amazon_linux.id
   instance_type             = var.instance_type
@@ -54,6 +54,11 @@ resource "aws_instance" "public_ec2" {
   vpc_security_group_ids    = [aws_security_group.web_sg.id] # Use the first public subnet
   associate_public_ip_address = true
   key_name                   = aws_key_pair.ec2_key.key_name
+
+  root_block_device {
+    volume_size = 50  # Set storage size to 50GB
+    volume_type = "gp2"  # General Purpose SSD
+  }
 
   tags = { Name = "public_instance" }
 }
